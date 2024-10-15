@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <title>Работа с преподавателями</title>
+</head>
+<body>
+    <ul class="nav">
+        <li><a href="{{ url_for('index') }}">Ученики</a></li>
+        <li><a href="{{ url_for('teacher') }}">Преподаватели</a></li>
+        <li><a href="{{ url_for('schedule') }}">Расписание</a></li>
+        <li><a href="{{ url_for('statistics') }}">Статистика</a></li>
+    </ul>
+
+    <div class="container">
+        <form action="" method="get">
+            <label for="teacher">Преподаватель:</label>
+            <select name="teacher" id="teacher" onchange="this.form.submit()">
+                {% for i in range(combo_box_teachers_len) %}
+                {% set id_r = combo_box_teachers.loc[i, "teacher_id"] %}
+                {% if id_r == teacher_id %}
+                <option selected value="{{id_r}}">{{ combo_box_teachers.loc[i, "teacher_name"] }}</option>
+                {% else %}
+                <option value="{{id_r}}">{{ combo_box_teachers.loc[i, "teacher_name"] }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <a href="{{ url_for('new_teacher') }}" class="button">Новый преподаватель</a>
+
+        </form>
+
+        <p>Телефон: <input type="text" value="{{ selected_teacher['teacher_number'] }}" readonly></p>
+        <p>Адрес: <input type="text" value="{{ selected_teacher['teacher_adress'] }}" readonly></p>
+
+        <p>Предмет: <input type="text" value="{{ subject }}" readonly></p> <!-- Добавляем поле с предметом -->
+
+        <label>Программы:</label>
+        <ul>
+            {% for i in range(programs.shape[0]) %}
+            <li>{{ programs.loc[i, 'program_name'] }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <title>Работа с учениками</title>
+</head>
+<body>
+     <!-- Панель навигации -->
+     <ul class="nav">
+        <li><a href="{{ url_for('index') }}">Ученики</a></li>
+        <li><a href="{{ url_for('teacher') }}">Преподаватели</a></li>
+        <li><a href="{{ url_for('schedule') }}">Расписание</a></li>
+        <li><a href="{{ url_for('statistics') }}">Статистика</a></li>
+    </ul>
+
+    <div class="container">
+        <form action="" method="get">
+            <label for="student">Выбор ученика:</label>
+            <select name="student" id="student" onchange="this.form.submit()">
+                {% for i in range(combo_box_1_len) %}
+                {% set id_r = combo_box_1.loc[i, "student_id"] %}
+                {% if id_r == student_id %}
+                <option selected value="{{id_r}}">{{ combo_box_1.loc[i, "student_name"] }}</option>
+                {% else %}
+                <option value="{{id_r}}">{{ combo_box_1.loc[i, "student_name"] }}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+            <a href="{{ url_for('new_student') }}" class="button">Новый ученик</a>
+        </form>
+
+        <p>Уровень: <input type="text" value="{{ selected_student['student_degree'] }}" readonly></p>
+        <p>Телефон: <input type="text" value="{{ selected_student['student_number'] }}" readonly></p>
+
+        <a href="{{ url_for('new_registration') }}" class="button">Записаться</a>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Преподаватель</th>
+                    <th>Предмет</th>
+                    <th>Курс</th>
+                    <th>Стоимость, руб</th>
+                    <th>Дата записи</th>
+                    <th>Действие</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in range(schedule_len) %}
+                <tr>
+                    <td>{{ schedule.loc[i, "Преподаватель"] }}</td>
+                    <td>{{ schedule.loc[i, "Программа"] }}</td>
+                    <td>{{ schedule.loc[i, "Класс_или_Курс"] }}</td>
+                    <td>{{ schedule.loc[i, "Стоимость"] }}</td>
+                    <td>{{ schedule.loc[i, "Дата_занятия"] }}</td>
+                    <td>
+                        <form action="{{ url_for('cancel_registration') }}" method="post">
+                            <input type="hidden" name="registration_id" value="{{ schedule.loc[i, 'registration_id'] }}">
+                            <input type="submit" value="Отменить запись">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

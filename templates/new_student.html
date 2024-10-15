@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+    <title>Новый ученик</title>
+</head>
+<body>
+    <h2>Добавить нового ученика</h2>
+    <form action="{{ url_for('new_student') }}" method="POST">
+        <label for="student_name">ФИО:</label>
+        <input type="text" id="student_name" name="student_name">
+        <label for="student_number">Телефон:</label>
+        <input type="text" id="student_number" name="student_number">
+        <label for="student_degree">Уровень:</label>
+        <input type="text" id="student_degree" name="student_degree">
+        <p>
+            <input type="submit" value="Добавить ученика">
+            <input type="button" onclick="history.back()" value="Отменить">
+        </p>
+    </form>
+</body>
+</html>
